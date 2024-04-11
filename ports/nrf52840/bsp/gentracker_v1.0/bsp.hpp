@@ -34,6 +34,10 @@
 #define GPS_POWER		BSP::GPIO::GPIO_GPS_PWR_EN
 #define AG_ENABLE		BSP::GPIO::GPIO_AG_PWR
 
+#define BAROMETER_SLEEP_EN BSP::GPIO::GPIO_EXT1_GPIO3 // Tom //
+
+
+
 // I2C device mappings
 #define CDT_MS5803_DEVICE EXT_I2C_BUS
 #define CDT_AD5933_DEVICE EXT_I2C_BUS
@@ -46,6 +50,8 @@
 #define EZO_RTD_DEVICE	  ONBOARD_I2C_BUS
 #define BMX160_DEVICE     ONBOARD_I2C_BUS
 
+#define ADC_BAROMETER_DEVICE ONBOARD_I2C_BUS  // Tom // or ext I2C bus 
+
 // I2C bus addresses
 #define MCP4716_I2C_ADDR    0x60
 #define MS5803_ADDRESS      0x77
@@ -57,6 +63,8 @@
 #define AD5933_ADDRESS		0x0D
 #define BMX160_ADDRESS      0x69
 #define STWLC68_ADDRESS		0x61
+
+#define ADC_BAROMETER_ADDR  0x  // Tom //
 
 // Battery voltage ADC gain
 #define ADC_GAIN              (1.0f/3.0f)  // 1/3 gain
