@@ -9,6 +9,9 @@
 
 class ads1015LL {
 public:
+	unsigned int m_bus;
+	unsigned char m_addr;
+	int m_wakeup_pin;
 	ads1015LL(unsigned int bus, unsigned char addr, int wakeup_pin);
 	//~ads1015LL();
 	void read(int& digital_value);
@@ -20,8 +23,7 @@ public:
 	//bool check_and_clear_wakeup();
 
 private:
-	unsigned int m_bus;
-	unsigned char m_addr;
+
     enum ads1015Command : uint8_t {
 		CONV_REG = (0x00),
 		CONFIG_REG = (0x01),
@@ -51,17 +53,10 @@ private:
 
 class ads1015 : public Sensor {
 public:
-    ads1015(ads1015LL& Ads1015) : Sensor("Baro"), m_ads1015(Ads1015) {}
-    double read(unsigned int offset = 0) {
-		if (0 == offset) {
-			m_ads1015.read(m_digital_value);
-			return m_digital_value;
-		}
-		throw ErrorCode::BAD_SENSOR_CHANNEL;
-		
-	}
-	
+    ads1015(); 
+	double read(unsigned int offset) override; 
+
 private:
-ads1015LL& m_ads1015;
+ads1015LL m_ads1015;
 int m_digital_value; 
 };
