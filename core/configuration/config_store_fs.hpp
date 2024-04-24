@@ -28,7 +28,7 @@ protected:
 	// rejected.  <KEY> has fixed length of 5 e.g., "IDT01".
 
 	bool serialize_config_entry(LFSFile &f, unsigned int index) {
-		DEBUG_TRACE("TEST122133");
+		DEBUG_TRACE("TEST2");
 		if (index >= MAX_CONFIG_ITEMS)
 			return false;
 		const BaseMap* entry = &param_map[index];
