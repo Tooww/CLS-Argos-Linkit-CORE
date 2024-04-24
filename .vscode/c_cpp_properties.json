@@ -110,7 +110,7 @@
                 "ARGOS_FREQ_MIN_WORKAROUND",
                 "OLD_ZONE_FORMAT_WORKAROUND"
             ],
-            "compilerPath": "/usr/bin/arm-none-eabi-gcc",
+            "compilerPath": "${env:GCC_ARM}/arm-none-eabi-gcc",
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x64"
