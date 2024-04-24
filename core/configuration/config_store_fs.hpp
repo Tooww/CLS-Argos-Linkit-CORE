@@ -8,6 +8,7 @@
 #include "dte_params.hpp"
 #include "calibration.hpp"
 
+DEBUG_TRACE("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 
 extern BatteryMonitor *battery_monitor;
 
