@@ -41,7 +41,7 @@ void ads1015LL::read(int& digital_value) {
 
     DEBUG_TRACE("BAROMETER_SLEEP_EN is set to HIGH");
      GPIOPins::set(BAROMETER_SLEEP_EN);
-    
+     
 
     DEBUG_TRACE("Flag value before if statement: %d", flag);
     if (flag==1)
