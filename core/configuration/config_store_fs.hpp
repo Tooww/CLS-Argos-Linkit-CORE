@@ -240,6 +240,7 @@ protected:
 	}
 
 	void deserialize_config() {
+		DEBUG_TRACE("TEST122133");
 		DEBUG_TRACE("ConfigurationStoreLFS::deserialize_config");
 		LFSFile f(&m_filesystem, "config.dat", LFS_O_RDONLY);
 
