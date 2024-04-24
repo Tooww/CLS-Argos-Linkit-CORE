@@ -604,8 +604,7 @@ int main()
 
 	DEBUG_TRACE("BARO...");
 	try {
-		ads1015LL ads1015Instance(ADC_BAROMETER_DEVICE,ADC_BAROMETER_ADDR,BAROMETER_SLEEP_EN);
-		static ads1015 baro(ads1015Instance);
+		static ads1015 baro;
 		static BAROSensorService baro_sensor_service(baro, &baro_sensor_log);
 	} catch (...) {
 		DEBUG_TRACE("BARO: not detected");
