@@ -28,7 +28,7 @@ protected:
 	// rejected.  <KEY> has fixed length of 5 e.g., "IDT01".
 
 	bool serialize_config_entry(LFSFile &f, unsigned int index) {
-		DEBUG_TRACE("TEST2");
+		//DEBUG_TRACE("TEST2");
 		if (index >= MAX_CONFIG_ITEMS)
 			return false;
 		const BaseMap* entry = &param_map[index];
@@ -101,7 +101,7 @@ protected:
 
 	bool deserialize_config_entry(LFSFile &f, unsigned int index) {
 
-		DEBUG_TRACE("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");	
+		DEBUG_TRACE("TEST4");	
 
 		if (index >= MAX_CONFIG_ITEMS)
 			return false;
@@ -295,12 +295,15 @@ protected:
 
 	void serialize_config() override {
 		DEBUG_TRACE("ConfigurationStoreLFS::serialize_config");
+		DEBUG_TRACE("TEST A");
+		
 		LFSFile f(&m_filesystem, "config.dat", LFS_O_WRONLY | LFS_O_CREAT | LFS_O_TRUNC);
-
+		DEBUG_TRACE("TEST B");
 		// Write configuration version field
-		if (f.write((void *)&m_config_version_code, sizeof(m_config_version_code)) != sizeof(m_config_version_code))
+		if (f.write((void *)&m_config_version_code, sizeof(m_config_version_code)) != sizeof(m_config_version_code)) {
+			DEBUG_TRACE("TEST C");
 			throw CONFIG_STORE_CORRUPTED;
-
+		}	
 		for (unsigned int i = 0; i < MAX_CONFIG_ITEMS; i++) {
 
 			// Check variant index (type) matches default parameter
