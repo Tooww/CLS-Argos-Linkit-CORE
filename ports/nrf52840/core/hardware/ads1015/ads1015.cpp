@@ -12,7 +12,7 @@
 #include "ads1015.hpp"
 #include "gpio.hpp"
 
-#include "../../../bsp/gentracker_v1.0/bsp.hpp"
+
 
 static int flag = 1;
 
