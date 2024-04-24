@@ -8,7 +8,7 @@
 #include "dte_params.hpp"
 #include "calibration.hpp"
 
-DEBUG_TRACE("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
 
 extern BatteryMonitor *battery_monitor;
 
@@ -99,6 +99,9 @@ protected:
 	}
 
 	bool deserialize_config_entry(LFSFile &f, unsigned int index) {
+
+		DEBUG_TRACE("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");	
+
 		if (index >= MAX_CONFIG_ITEMS)
 			return false;
 		const BaseMap* entry = &param_map[index];
