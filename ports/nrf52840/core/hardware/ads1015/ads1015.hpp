@@ -51,7 +51,7 @@ private:
 
 class ads1015 : public Sensor {
 public:
-    ads1015(ads1015LL& ads1015) : Sensor("Baro"), m_ads1015(ads1015) {}
+    ads1015(ads1015LL& Ads1015) : Sensor("Baro"), m_ads1015(Ads1015) {}
     double read(unsigned int offset = 0) {
 		if (0 == offset) {
 			m_ads1015.read(m_digital_value);
