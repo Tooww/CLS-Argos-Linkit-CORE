@@ -51,6 +51,8 @@
 #include "memory_monitor_service.hpp"
 #include "dive_mode_service.hpp"
 
+#include "ads1015.hpp"
+#include "baro_sensor_service.hpp"
 
 FileSystem *main_filesystem;
 
@@ -466,6 +468,11 @@ int main()
 	FsLog axl_sensor_log(&lfs_file_system, "AXL", 1024*1024);
 	axl_sensor_log.set_log_formatter(&axl_sensor_log_formatter);
 
+	DEBUG_TRACE("BARO Sensor Log..."); 
+	BAROLogFormatter baro_sensor_log_formatter;
+	FsLog baro_sensor_log(&lfs_file_system, "BARO", 1024*1024);
+	baro_sensor_log.set_log_formatter(&baro_sensor_log_formatter);
+
 	DEBUG_TRACE("RAM access...");
 	NrfMemoryAccess nrf_memory_access;
 	memory_access = &nrf_memory_access;
@@ -592,6 +599,15 @@ int main()
 		static AXLSensorService axl_sensor_service(bmx160, &axl_sensor_log);
 	} catch (...) {
 		DEBUG_TRACE("BMX160: not detected");
+	}
+
+
+	DEBUG_TRACE("BARO...");
+	try {
+		static BARO baro;
+		static BAROSensorService baro_sensor_service(baro, &baro_sensor_log);
+	} catch (...) {
+		DEBUG_TRACE("BARO: not detected");
 	}
 
 	DEBUG_TRACE("Memory monitor...");

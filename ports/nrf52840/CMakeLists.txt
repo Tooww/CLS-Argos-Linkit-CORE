@@ -173,6 +173,8 @@ target_include_directories(${TARGET_NAME} SYSTEM PRIVATE
     ${PROJ_DIR}/core/hardware/cdt
     ${PROJ_DIR}/core/hardware/bmx160
     ${PROJ_DIR}/core/hardware/stwlc68_otp
+    ${PROJ_DIR}/core/hardware/ads1015
+
 )
 
 target_sources(${TARGET_NAME} PRIVATE
@@ -250,6 +252,7 @@ target_sources(${TARGET_NAME} PRIVATE
     ${PROJ_DIR}/core/hardware/ad5933/ad5933.cpp
     ${PROJ_DIR}/core/hardware/bmx160/bmx160.cpp
     ${PROJ_DIR}/core/hardware/bmx160/bmx160.c
+    ${PROJ_DIR}/core/hardware/ads1015/ads1015.cpp
     ${PROJ_DIR}/core/hardware/cdt/cdt.cpp
     ${PROJ_DIR}/core/hardware/ltr_303/ltr_303.cpp
     ${PROJ_DIR}/core/hardware/oem_ph/oem_ph.cpp

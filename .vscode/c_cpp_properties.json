@@ -85,7 +85,13 @@
                 "${workspaceRoot}/core/filesystem",
                 "${workspaceRoot}/core/scheduling",
                 "${workspaceRoot}/ports/nrf52840/core/hardware/artic_r2",
-                "${workspaceRoot}/ports/nrf52840/core/hardware/m8q"
+                "${workspaceRoot}/ports/nrf52840/core/hardware/m8q",
+                "${workspaceFolder}/ports/nrf52840/drivers/nRF5_SDK_17.0.2/components/libraries/libuarte",
+                "${workspaceFolder}/ports/nrf52840/drivers/nRF5_SDK_17.0.2/components/libraries/queue",
+                "${workspaceFolder}/ports/nrf52840/core/hardware",
+                "${workspaceFolder}/libraries/inplace_function",
+                "${workspaceFolder}/libraries/etl-20.27.3/include",
+                "${workspaceFolder}/core/services"
             ],
             "defines": [
                 "DEBUG",
@@ -104,7 +110,7 @@
                 "ARGOS_FREQ_MIN_WORKAROUND",
                 "OLD_ZONE_FORMAT_WORKAROUND"
             ],
-            "compilerPath": "${env:GCC_ARM}/arm-none-eabi-gcc",
+            "compilerPath": "/usr/bin/arm-none-eabi-gcc",
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x64"

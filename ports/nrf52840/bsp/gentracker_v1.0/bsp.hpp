@@ -64,7 +64,7 @@
 #define BMX160_ADDRESS      0x69
 #define STWLC68_ADDRESS		0x61
 
-#define ADC_BAROMETER_ADDR  0x  // Tom //
+#define ADC_BAROMETER_ADDR  0x48  // Tom // or 0x49, 0x4A, 0x4B
 
 // Battery voltage ADC gain
 #define ADC_GAIN              (1.0f/3.0f)  // 1/3 gain
