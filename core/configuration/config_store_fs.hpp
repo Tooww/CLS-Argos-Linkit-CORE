@@ -303,7 +303,8 @@ protected:
 		if (f.write((void *)&m_config_version_code, sizeof(m_config_version_code)) != sizeof(m_config_version_code)) {
 			DEBUG_TRACE("TEST C");
 			throw CONFIG_STORE_CORRUPTED;
-		}	
+		}
+		DEBUG_TRACE("TEST D");	
 		for (unsigned int i = 0; i < MAX_CONFIG_ITEMS; i++) {
 
 			// Check variant index (type) matches default parameter
