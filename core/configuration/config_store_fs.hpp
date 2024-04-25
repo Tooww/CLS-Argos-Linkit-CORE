@@ -120,6 +120,8 @@ protected:
 		} s;
 		std::visit(s, m_params.at(index));
 
+		DEBUG_TRACE("TEST2.3");
+
 		return f.write((void *)entry->key.data(), entry->key.size()) == (lfs_ssize_t)entry->key.size() &&
 				f.write(s.entry_buffer, sizeof(s.entry_buffer)) == sizeof(s.entry_buffer);
 	}
