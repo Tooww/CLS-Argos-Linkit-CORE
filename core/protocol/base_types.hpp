@@ -170,8 +170,6 @@ enum class ParamID {
 	BARO_SENSOR_ENABLE_TX_SAMPLE_PERIOD,
 	BARO_SENSOR_ENABLE_TX_MODE,
 
-	slkdjflskdjf,
-
 	__PARAM_SIZE,
 	__NULL_PARAM = 0xFFFF
 };

@@ -306,7 +306,7 @@ protected:
 		}
 		DEBUG_TRACE("TEST D");	
 		for (unsigned int i = 0; i < MAX_CONFIG_ITEMS; i++) {
-
+			DEBUG_TRACE("test i = %u",i);
 			// Check variant index (type) matches default parameter
 			if (m_params.at(i).index() != default_params.at(i).index()) {
 				DEBUG_WARN("serialize_config: param %s variant index mismatch expected %u but got %u - resetting...",
