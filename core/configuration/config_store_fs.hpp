@@ -29,8 +29,10 @@ protected:
 
 	bool serialize_config_entry(LFSFile &f, unsigned int index) {
 		DEBUG_TRACE("TEST2");
-		if (index >= MAX_CONFIG_ITEMS)
+		if (index >= MAX_CONFIG_ITEMS) {
+			DEBUG_TRACE("TEST false : %u",index);
 			return false;
+		}
 		const BaseMap* entry = &param_map[index];
 		struct Serializer {
 			uint8_t entry_buffer[BASE_TEXT_MAX_LENGTH];
