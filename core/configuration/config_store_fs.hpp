@@ -121,7 +121,11 @@ protected:
 		std::visit(s, m_params.at(index));
 
 		DEBUG_TRACE("TEST2.3");
-
+		DEBUG_TRACE("TEST TIME 1");
+		DEBUG_TRACE("TEST TIME 2");
+		DEBUG_TRACE("TEST TIME 3");
+		DEBUG_TRACE("TEST TIME 4");
+		DEBUG_TRACE("TEST TIME 5");
 		return f.write((void *)entry->key.data(), entry->key.size()) == (lfs_ssize_t)entry->key.size() &&
 				f.write(s.entry_buffer, sizeof(s.entry_buffer)) == sizeof(s.entry_buffer);
 	}
