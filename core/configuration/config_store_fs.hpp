@@ -29,107 +29,86 @@ protected:
 
 	bool serialize_config_entry(LFSFile &f, unsigned int index) {
 
-		DEBUG_TRACE("TEST2");
 		
 		if (index >= MAX_CONFIG_ITEMS) {
-			DEBUG_TRACE("TEST false : %u",index);
 			return false;
 		}
 
-		DEBUG_TRACE("TEST2.2 + i = %u",index);
 
 		const BaseMap* entry = &param_map[index];
 		struct Serializer {
 			uint8_t entry_buffer[BASE_TEXT_MAX_LENGTH];
 			void operator()(std::string& s) {
-				DEBUG_TRACE("TEST2. string");
 				std::memset(entry_buffer, 0, sizeof(entry_buffer));
 				std::memcpy(entry_buffer, s.data(), s.size());
 				
 			};
 			// BaseGNSSDynModel
 			void operator()(unsigned int &s) {
-				DEBUG_TRACE("TEST2. uint");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
 			void operator()(int &s) {
-				DEBUG_TRACE("TEST2. int");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
 			void operator()(double &s) {
-				DEBUG_TRACE("TEST2. double");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 			
 			};
 			void operator()(std::time_t &s) {
-				DEBUG_TRACE("TEST2. time_t");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
 			void operator()(BaseArgosMode &s) {
-				DEBUG_TRACE("TEST2. baseargosmode");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
 			void operator()(BaseArgosPower &s) {
-				DEBUG_TRACE("TEST2. baseargospower");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
 			void operator()(BaseArgosDepthPile &s) {
-				DEBUG_TRACE("TEST2. baseargosdephpile");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
 			void operator()(bool &s) {
-				DEBUG_TRACE("TEST2. bool");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
 			void operator()(BaseGNSSFixMode &s) {
-				DEBUG_TRACE("TEST2. basegnssfixmode");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
 			void operator()(BaseGNSSDynModel &s) {
-				DEBUG_TRACE("TEST2. basegnssdynmodel");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
 			void operator()(BaseLEDMode &s) {
-				DEBUG_TRACE("TEST2. baseledmode");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
 			void operator()(BaseZoneType &s) {
-				DEBUG_TRACE("TEST2. basezonetype");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
 			void operator()(BaseArgosModulation &s) {
-				DEBUG_TRACE("TEST2. basegnssfixmode");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
 			void operator()(BaseUnderwaterDetectSource &s) {
-				DEBUG_TRACE("TEST2. baseunderwaterdetec");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
 			void operator()(BaseDebugMode &s) {
-				DEBUG_TRACE("TEST2. basedebugmode");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
 			void operator()(BasePressureSensorLoggingMode &s) {
-				DEBUG_TRACE("TEST2. basepressuresensor");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
 			void operator()(BaseSensorEnableTxMode &s) {
-				DEBUG_TRACE("TEST2. baseSENSOR ENABLE TXMODE");
 				std::memcpy(entry_buffer, &s, sizeof(s));
 				
 			};
@@ -138,19 +117,11 @@ protected:
 		} s;
 		std::visit(s, m_params.at(index));
 
-		DEBUG_TRACE("TEST2.3");
-		DEBUG_TRACE("TEST TIME 1");
-		DEBUG_TRACE("TEST TIME 2");
-		DEBUG_TRACE("TEST TIME 3");
-		DEBUG_TRACE("TEST TIME 4");
-		DEBUG_TRACE("TEST TIME 5");
 		return f.write((void *)entry->key.data(), entry->key.size()) == (lfs_ssize_t)entry->key.size() &&
 				f.write(s.entry_buffer, sizeof(s.entry_buffer)) == sizeof(s.entry_buffer);
 	}
 
 	bool deserialize_config_entry(LFSFile &f, unsigned int index) {
-
-		DEBUG_TRACE("TEST4");	
 
 		if (index >= MAX_CONFIG_ITEMS)
 			return false;
@@ -290,7 +261,6 @@ protected:
 	}
 
 	void deserialize_config() {
-		DEBUG_TRACE("TEST122133");
 		DEBUG_TRACE("ConfigurationStoreLFS::deserialize_config");
 		LFSFile f(&m_filesystem, "config.dat", LFS_O_RDONLY);
 
@@ -344,18 +314,13 @@ protected:
 
 	void serialize_config() override {
 		DEBUG_TRACE("ConfigurationStoreLFS::serialize_config");
-		DEBUG_TRACE("TEST A");
 		
 		LFSFile f(&m_filesystem, "config.dat", LFS_O_WRONLY | LFS_O_CREAT | LFS_O_TRUNC);
-		DEBUG_TRACE("TEST B");
 		// Write configuration version field
 		if (f.write((void *)&m_config_version_code, sizeof(m_config_version_code)) != sizeof(m_config_version_code)) {
-			DEBUG_TRACE("TEST C");
 			throw CONFIG_STORE_CORRUPTED;
 		}
-		DEBUG_TRACE("TEST D");	
 		for (unsigned int i = 0; i < MAX_CONFIG_ITEMS; i++) {
-			DEBUG_TRACE("test i = %u",i);
 			// Check variant index (type) matches default parameter
 			if (m_params.at(i).index() != default_params.at(i).index()) {
 				DEBUG_WARN("serialize_config: param %s variant index mismatch expected %u but got %u - resetting...",

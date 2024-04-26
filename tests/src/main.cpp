@@ -46,5 +46,5 @@ int main(int argc, char** argv)
 	DebugLogger::console_log = &con_log;
     TestRegistry::getCurrentRegistry()->installPlugin(&mockPlugin);
     int exit_code = CommandLineTestRunner::RunAllTests(argc, argv);
-    return exit_code + 1;
+    return exit_code;
 }
