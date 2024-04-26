@@ -193,6 +193,13 @@ const BaseMap param_map[] = {
 	{ "PRESSURE_SENSOR_ENABLE_TX_MODE", "PRP04", BaseEncoding::SENSORENABLETXMODE, 0, 0, {}, true, true },
 	{ "PRESSURE_SENSOR_ENABLE_TX_MAX_SAMPLES", "PRP05", BaseEncoding::UINT, 1U, 0xFFFFFFFFU, {}, true, true },
 	{ "PRESSURE_SENSOR_ENABLE_TX_SAMPLE_PERIOD", "PRP06", BaseEncoding::UINT, 1U, 0xFFFFFFFFU, {}, true, true },
+
+	//Barometer // Tom // 
+	{ "BARO_SENSOR_ENABLE_TX_MAX_SAMPLES", "BAP01", BaseEncoding::UINT, 1U, 0xFFFFFFFFU, {}, true, true },
+	{ "BARO_SENSOR_ENABLE", "BAP02",  BaseEncoding::BOOLEAN, 0, 0, {}, true, true },
+	{ "BARO_SENSOR_PERIODIC", "BAP03", BaseEncoding::UINT, 0U, 0U, {}, true, true },
+	{ "BARO_SENSOR_ENABLE_TX_SAMPLE_PERIOD", "BAP04", BaseEncoding::UINT, 1U, 0xFFFFFFFFU, {}, true, true },
+	{ "BARO_SENSOR_ENABLE_TX_MODE", "BAP05", BaseEncoding::SENSORENABLETXMODE, 0, 0, {}, true, true },
 };
 
 const size_t param_map_size = sizeof(param_map) / sizeof(param_map[0]);
