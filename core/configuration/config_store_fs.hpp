@@ -42,78 +42,96 @@ protected:
 		struct Serializer {
 			uint8_t entry_buffer[BASE_TEXT_MAX_LENGTH];
 			void operator()(std::string& s) {
+				DEBUG_TRACE("TEST2. string");
 				std::memset(entry_buffer, 0, sizeof(entry_buffer));
 				std::memcpy(entry_buffer, s.data(), s.size());
-				DEBUG_TRACE("TEST2. string");
+				
 			};
 			// BaseGNSSDynModel
 			void operator()(unsigned int &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. uint");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(int &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. int");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(double &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. double");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+			
 			};
 			void operator()(std::time_t &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. time_t");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(BaseArgosMode &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. baseargosmode");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(BaseArgosPower &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. baseargospower");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(BaseArgosDepthPile &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. baseargosdephpile");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(bool &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. bool");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(BaseGNSSFixMode &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. basegnssfixmode");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(BaseGNSSDynModel &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. basegnssdynmodel");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(BaseLEDMode &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. baseledmode");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(BaseZoneType &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. basezonetype");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(BaseArgosModulation &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. basegnssfixmode");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(BaseUnderwaterDetectSource &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. baseunderwaterdetec");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(BaseDebugMode &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. basedebugmode");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(BasePressureSensorLoggingMode &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. basepressuresensor");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(BaseSensorEnableTxMode &s) {
-				std::memcpy(entry_buffer, &s, sizeof(s));
 				DEBUG_TRACE("TEST2. baseSENSOR ENABLE TXMODE");
+				std::memcpy(entry_buffer, &s, sizeof(s));
+				
 			};
 			void operator()(BaseRawData &) {
 			};
