@@ -48,21 +48,21 @@ TEST_GROUP(BAROSensor)
 		delete fake_rtc;
 	}
 
-	// void notify_gnss_active() {
-	// 	ServiceEvent e;
-	// 	e.event_type = ServiceEventType::SERVICE_ACTIVE,
-	// 	e.event_source = ServiceIdentifier::GNSS_SENSOR;
-	// 	e.event_originator_unique_id = 0x12345678;
-	// 	ServiceManager::notify_peer_event(e);
-	// }
+	void notify_gnss_active() {
+		ServiceEvent e;
+		e.event_type = ServiceEventType::SERVICE_ACTIVE,
+		e.event_source = ServiceIdentifier::GNSS_SENSOR;
+		e.event_originator_unique_id = 0x12345678;
+		ServiceManager::notify_peer_event(e);
+	}
 
-	// void notify_gnss_inactive() {
-	// 	ServiceEvent e;
-	// 	e.event_type = ServiceEventType::SERVICE_INACTIVE,
-	// 	e.event_source = ServiceIdentifier::GNSS_SENSOR;
-	// 	e.event_originator_unique_id = 0x12345678;
-	// 	ServiceManager::notify_peer_event(e);
-	// }
+	void notify_gnss_inactive() {
+		ServiceEvent e;
+		e.event_type = ServiceEventType::SERVICE_INACTIVE,
+		e.event_source = ServiceIdentifier::GNSS_SENSOR;
+		e.event_originator_unique_id = 0x12345678;
+		ServiceManager::notify_peer_event(e);
+	}
 
 };
 
@@ -172,201 +172,201 @@ TEST(BAROSensor, SchedulingNoPeriodic)
 	s.stop();
 }
 
-// TEST(BAROSensor, SchedulingTxEnableOneShot)
-// {
-// 	MockSensor drv;
-// 	BAROSensorService s(drv, logger);
-// 	unsigned int num_callbacks = 0;
+TEST(BAROSensor, SchedulingTxEnableOneShot)
+{
+	MockSensor drv;
+	BAROSensorService s(drv, logger);
+	unsigned int num_callbacks = 0;
 
-// 	system_timer->start();
+	system_timer->start();
 
-// 	unsigned int period = 10;
-// 	bool sensor_en = true;
-// 	BaseSensorEnableTxMode mode = BaseSensorEnableTxMode::ONESHOT;
+	unsigned int period = 10;
+	bool sensor_en = true;
+	BaseSensorEnableTxMode mode = BaseSensorEnableTxMode::ONESHOT;
 
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE, sensor_en);
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_PERIODIC, period);
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_MODE, mode);
+	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE, sensor_en);
+	configuration_store->write_param(ParamID::BARO_SENSOR_PERIODIC, period);
+	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_MODE, mode);
 
-// 	s.start([&num_callbacks](ServiceEvent &event) {
-// 		if (event.event_type == ServiceEventType::SERVICE_LOG_UPDATED) {
-// 			num_callbacks++;
-// 		}
-// 	});
+	s.start([&num_callbacks](ServiceEvent &event) {
+		if (event.event_type == ServiceEventType::SERVICE_LOG_UPDATED) {
+			num_callbacks++;
+		}
+	});
 
-// 	// Sampling is triggered by GNSS
-// 	notify_gnss_active();
+	// Sampling is triggered by GNSS
+	notify_gnss_active();
 
-// 	// Sampling should happen once in one-shot mode
-// 	for (unsigned int i = 0; i < 1; i++) {
-// 		mock().expectOneCall("read").onObject(&drv).withUnsignedIntParameter("port", 0).andReturnValue((double)i);
-// 		fake_timer->increment_counter(period*1000);
-// 		system_scheduler->run();
-// 	}
+	// Sampling should happen once in one-shot mode
+	for (unsigned int i = 0; i < 1; i++) {
+		mock().expectOneCall("read").onObject(&drv).withUnsignedIntParameter("port", 0).andReturnValue((double)i);
+		fake_timer->increment_counter(period*1000);
+		system_scheduler->run();
+	}
 
-// 	notify_gnss_inactive();
+	notify_gnss_inactive();
 
-// 	CHECK_EQUAL(1, num_callbacks);
-// 	CHECK_EQUAL(1, logger->num_entries());
+	CHECK_EQUAL(1, num_callbacks);
+	CHECK_EQUAL(1, logger->num_entries());
 
-// 	// Sampling should happen once in one-shot mode
-// 	for (unsigned int i = 0; i < 1; i++) {
-// 		BAROLogEntry e;
-// 		logger->read(&e, i);
-// 		CHECK_EQUAL((double)i, e.digital_value);
-// 	}
+	// Sampling should happen once in one-shot mode
+	for (unsigned int i = 0; i < 1; i++) {
+		BAROLogEntry e;
+		logger->read(&e, i);
+		CHECK_EQUAL((double)i, e.digital_value);
+	}
 
-// 	s.stop();
-// }
+	s.stop();
+}
 
 
-// TEST(BAROSensor, SchedulingTxEnableMean)
-// {
-// 	MockSensor drv;
-// 	BAROSensorService s(drv, logger);
-// 	unsigned int num_callbacks = 0;
+TEST(BAROSensor, SchedulingTxEnableMean)
+{
+	MockSensor drv;
+	BAROSensorService s(drv, logger);
+	unsigned int num_callbacks = 0;
 
-// 	system_timer->start();
+	system_timer->start();
 
-// 	unsigned int tx_period = 1;
-// 	unsigned int period = 10;
-// 	unsigned int max_samples = 100;
-// 	bool sensor_en = true;
-// 	BaseSensorEnableTxMode mode = BaseSensorEnableTxMode::MEAN;
-// 	ServiceSensorData sensorData;
+	unsigned int tx_period = 1;
+	unsigned int period = 10;
+	unsigned int max_samples = 100;
+	bool sensor_en = true;
+	BaseSensorEnableTxMode mode = BaseSensorEnableTxMode::MEAN;
+	ServiceSensorData sensorData;
 
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE, sensor_en);
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_PERIODIC, period);
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_MODE, mode);
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_SAMPLE_PERIOD, tx_period);
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_MAX_SAMPLES, max_samples);
+	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE, sensor_en);
+	configuration_store->write_param(ParamID::BARO_SENSOR_PERIODIC, period);
+	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_MODE, mode);
+	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_SAMPLE_PERIOD, tx_period);
+	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_MAX_SAMPLES, max_samples);
 
-// 	s.start([&num_callbacks,&sensorData](ServiceEvent &event) {
-// 		if (event.event_type == ServiceEventType::SERVICE_LOG_UPDATED) {
-// 			num_callbacks++;
-// 			sensorData = std::get<ServiceSensorData>(event.event_data);
-// 		}
-// 	});
+	s.start([&num_callbacks,&sensorData](ServiceEvent &event) {
+		if (event.event_type == ServiceEventType::SERVICE_LOG_UPDATED) {
+			num_callbacks++;
+			sensorData = std::get<ServiceSensorData>(event.event_data);
+		}
+	});
 
-// 	// Sampling is triggered by GNSS
-// 	notify_gnss_active();
+	// Sampling is triggered by GNSS
+	notify_gnss_active();
 
-// 	// Sampling should happen periodically in mean sampling mode
-// 	for (unsigned int i = 0; i < max_samples; i++) {
-// 		mock().expectOneCall("read").onObject(&drv).withUnsignedIntParameter("port", 0).andReturnValue((double)i);
-// 		fake_timer->increment_counter(period);
-// 		system_scheduler->run();
-// 	}
+	// Sampling should happen periodically in mean sampling mode
+	for (unsigned int i = 0; i < max_samples; i++) {
+		mock().expectOneCall("read").onObject(&drv).withUnsignedIntParameter("port", 0).andReturnValue((double)i);
+		fake_timer->increment_counter(period);
+		system_scheduler->run();
+	}
 
-// 	notify_gnss_inactive();
+	notify_gnss_inactive();
 
-// 	CHECK_EQUAL(1, num_callbacks);
-// 	CHECK_EQUAL(1, logger->num_entries());
-// 	BAROLogEntry e;
-// 	logger->read(&e, 0);
-// 	CHECK_EQUAL((double)49.5, e.digital_value);
-// 	CHECK_EQUAL((double)49.5, sensorData.port[0]);
+	CHECK_EQUAL(1, num_callbacks);
+	CHECK_EQUAL(1, logger->num_entries());
+	BAROLogEntry e;
+	logger->read(&e, 0);
+	CHECK_EQUAL((double)49.5, e.digital_value);
+	CHECK_EQUAL((double)49.5, sensorData.port[0]);
 
-// 	s.stop();
-// }
+	s.stop();
+}
 
-// TEST(BAROSensor, SchedulingTxEnableMedian)
-// {
-// 	MockSensor drv;
-// 	BAROSensorService s(drv, logger);
-// 	unsigned int num_callbacks = 0;
+TEST(BAROSensor, SchedulingTxEnableMedian)
+{
+	MockSensor drv;
+	BAROSensorService s(drv, logger);
+	unsigned int num_callbacks = 0;
 
-// 	system_timer->start();
+	system_timer->start();
 
-// 	unsigned int tx_period = 1;
-// 	unsigned int period = 10;
-// 	unsigned int max_samples = 100;
-// 	bool sensor_en = true;
-// 	BaseSensorEnableTxMode mode = BaseSensorEnableTxMode::MEDIAN;
-// 	ServiceSensorData sensorData;
+	unsigned int tx_period = 1;
+	unsigned int period = 10;
+	unsigned int max_samples = 100;
+	bool sensor_en = true;
+	BaseSensorEnableTxMode mode = BaseSensorEnableTxMode::MEDIAN;
+	ServiceSensorData sensorData;
 
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE, sensor_en);
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_PERIODIC, period);
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_MODE, mode);
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_SAMPLE_PERIOD, tx_period);
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_MAX_SAMPLES, max_samples);
+	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE, sensor_en);
+	configuration_store->write_param(ParamID::BARO_SENSOR_PERIODIC, period);
+	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_MODE, mode);
+	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_SAMPLE_PERIOD, tx_period);
+	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_MAX_SAMPLES, max_samples);
 
-// 	s.start([&num_callbacks,&sensorData](ServiceEvent &event) {
-// 		if (event.event_type == ServiceEventType::SERVICE_LOG_UPDATED) {
-// 			num_callbacks++;
-// 			sensorData = std::get<ServiceSensorData>(event.event_data);
-// 		}
-// 	});
+	s.start([&num_callbacks,&sensorData](ServiceEvent &event) {
+		if (event.event_type == ServiceEventType::SERVICE_LOG_UPDATED) {
+			num_callbacks++;
+			sensorData = std::get<ServiceSensorData>(event.event_data);
+		}
+	});
 
-// 	// Sampling is triggered by GNSS
-// 	notify_gnss_active();
+	// Sampling is triggered by GNSS
+	notify_gnss_active();
 
-// 	// Sampling should happen periodically in mean sampling mode
-// 	for (unsigned int i = 0; i < max_samples; i++) {
-// 		mock().expectOneCall("read").onObject(&drv).withUnsignedIntParameter("port", 0).andReturnValue((double)i);
-// 		fake_timer->increment_counter(period);
-// 		system_scheduler->run();
-// 	}
+	// Sampling should happen periodically in mean sampling mode
+	for (unsigned int i = 0; i < max_samples; i++) {
+		mock().expectOneCall("read").onObject(&drv).withUnsignedIntParameter("port", 0).andReturnValue((double)i);
+		fake_timer->increment_counter(period);
+		system_scheduler->run();
+	}
 
-// 	notify_gnss_inactive();
+	notify_gnss_inactive();
 
-// 	CHECK_EQUAL(1, num_callbacks);
-// 	CHECK_EQUAL(1, logger->num_entries());
-// 	BAROLogEntry e;
-// 	logger->read(&e, 0);
-// 	CHECK_EQUAL((double)50, e.digital_value);
-// 	CHECK_EQUAL((double)50, sensorData.port[0]);
+	CHECK_EQUAL(1, num_callbacks);
+	CHECK_EQUAL(1, logger->num_entries());
+	BAROLogEntry e;
+	logger->read(&e, 0);
+	CHECK_EQUAL((double)50, e.digital_value);
+	CHECK_EQUAL((double)50, sensorData.port[0]);
 
-// 	s.stop();
-// }
+	s.stop();
+}
 
-// TEST(BAROSensor, SchedulingTxEnableMaxSamplesTerminates)
-// {
-// 	MockSensor drv;
-// 	BAROSensorService s(drv, logger);
-// 	unsigned int num_callbacks = 0;
+TEST(BAROSensor, SchedulingTxEnableMaxSamplesTerminates)
+{
+	MockSensor drv;
+	BAROSensorService s(drv, logger);
+	unsigned int num_callbacks = 0;
 
-// 	system_timer->start();
+	system_timer->start();
 
-// 	unsigned int tx_period = 1;
-// 	unsigned int period = 10;
-//     unsigned int max_samples = 100;
-// 	bool sensor_en = true;
-// 	BaseSensorEnableTxMode mode = BaseSensorEnableTxMode::MEDIAN;
-// 	ServiceSensorData sensorData;
+	unsigned int tx_period = 1;
+	unsigned int period = 10;
+    unsigned int max_samples = 100;
+	bool sensor_en = true;
+	BaseSensorEnableTxMode mode = BaseSensorEnableTxMode::MEDIAN;
+	ServiceSensorData sensorData;
 
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE, sensor_en);
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_PERIODIC, period);
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_MODE, mode);
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_SAMPLE_PERIOD, tx_period);
-// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_MAX_SAMPLES, max_samples);
+	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE, sensor_en);
+	configuration_store->write_param(ParamID::BARO_SENSOR_PERIODIC, period);
+	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_MODE, mode);
+	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_SAMPLE_PERIOD, tx_period);
+	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_MAX_SAMPLES, max_samples);
 
-// 	s.start([&num_callbacks,&sensorData](ServiceEvent &event) {
-// 		if (event.event_type == ServiceEventType::SERVICE_LOG_UPDATED) {
-// 			num_callbacks++;
-// 			sensorData = std::get<ServiceSensorData>(event.event_data);
-// 		}
-// 	});
+	s.start([&num_callbacks,&sensorData](ServiceEvent &event) {
+		if (event.event_type == ServiceEventType::SERVICE_LOG_UPDATED) {
+			num_callbacks++;
+			sensorData = std::get<ServiceSensorData>(event.event_data);
+		}
+	});
 
-// 	// Sampling is triggered by GNSS
-// 	notify_gnss_active();
+	// Sampling is triggered by GNSS
+	notify_gnss_active();
 
-// 	// Sampling should happen periodically in median sampling mode
-// 	for (unsigned int i = 0; i < 2 * max_samples; i++) {
-// 		if (i < max_samples)
-// 			mock().expectOneCall("read").onObject(&drv).withUnsignedIntParameter("port", 0).andReturnValue((double)i);
-// 		fake_timer->increment_counter(period);
-// 		system_scheduler->run();
-// 	}
+	// Sampling should happen periodically in median sampling mode
+	for (unsigned int i = 0; i < 2 * max_samples; i++) {
+		if (i < max_samples)
+			mock().expectOneCall("read").onObject(&drv).withUnsignedIntParameter("port", 0).andReturnValue((double)i);
+		fake_timer->increment_counter(period);
+		system_scheduler->run();
+	}
 
-// 	notify_gnss_inactive();
+	notify_gnss_inactive();
 
-// 	CHECK_EQUAL(1, num_callbacks);
-// 	CHECK_EQUAL(1, logger->num_entries());
-// 	BAROLogEntry e;
-// 	logger->read(&e, 0);
-// 	CHECK_EQUAL((double)50, e.digital_value);
-// 	CHECK_EQUAL((double)50, sensorData.port[0]);
+	CHECK_EQUAL(1, num_callbacks);
+	CHECK_EQUAL(1, logger->num_entries());
+	BAROLogEntry e;
+	logger->read(&e, 0);
+	CHECK_EQUAL((double)50, e.digital_value);
+	CHECK_EQUAL((double)50, sensorData.port[0]);
 
-// 	s.stop();
-// }
+	s.stop();
+}
