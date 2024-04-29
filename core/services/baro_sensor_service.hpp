@@ -51,9 +51,9 @@ private:
     }
 #pragma GCC diagnostic pop
 
-	unsigned int sensor_max_samples() override {
-		return service_read_param<unsigned int>(ParamID::BARO_SENSOR_ENABLE_TX_MAX_SAMPLES);
-	}
+	// unsigned int sensor_max_samples() override {
+	// 	return service_read_param<unsigned int>(ParamID::BARO_SENSOR_ENABLE_TX_MAX_SAMPLES);
+	// }
 
 	unsigned int sensor_num_channels() override { return 1U; }
 
@@ -67,12 +67,12 @@ private:
 		return schedule == 0 ? Service::SCHEDULE_DISABLED : schedule;
 	}
 
-	unsigned int sensor_tx_periodic() override {
-		return service_read_param<unsigned int>(ParamID::BARO_SENSOR_ENABLE_TX_SAMPLE_PERIOD);
-	}
+	// unsigned int sensor_tx_periodic() override {
+	// 	return service_read_param<unsigned int>(ParamID::BARO_SENSOR_ENABLE_TX_SAMPLE_PERIOD);
+	// }
 
-	BaseSensorEnableTxMode sensor_enable_tx_mode() override {
-		return service_read_param<BaseSensorEnableTxMode>(ParamID::BARO_SENSOR_ENABLE_TX_MODE);
-	}
+	// BaseSensorEnableTxMode sensor_enable_tx_mode() override {
+	// 	return service_read_param<BaseSensorEnableTxMode>(ParamID::BARO_SENSOR_ENABLE_TX_MODE);
+	// }
 };
 
