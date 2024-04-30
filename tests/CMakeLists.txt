@@ -17,7 +17,7 @@ FetchContent_Declare(
     GIT_TAG        latest-passing-build # or use release tag, eg. v3.8
 )
 # Set this to ON if you want to have the CppUTests in your project as well.
-set(TESTS OFF CACHE BOOL "Switch off CppUTest Test build")
+set(TESTS ON CACHE BOOL "Switch off CppUTest Test build")
 FetchContent_MakeAvailable(CppUTest)
 target_compile_definitions(CppUTest PUBLIC CPPUTEST_MEM_LEAK_DETECTION_DISABLED)
 target_compile_definitions(CppUTestExt PUBLIC CPPUTEST_MEM_LEAK_DETECTION_DISABLED)
