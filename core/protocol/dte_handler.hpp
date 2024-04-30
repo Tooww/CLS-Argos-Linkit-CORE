@@ -15,7 +15,7 @@ using namespace std::literals::string_literals;
 
 
 // This governs the maximum number of log entries we can read out in a single request
-#define DTE_HANDLER_MAX_LOG_DUMP_ENTRIES          8U
+#define DTE_HANDLER_MAX_LOG_DUMP_ENTRIES          9U                  // Tom // its was 8U
 
 enum class DTEAction {
 	NONE,    // Default action is none
@@ -52,6 +52,7 @@ private:
 		{5, "CDT"},
 		{6, "AXL"},
 		{7, "PRESSURE"},
+		{8, "BARO"}, //Tom
 	};
 	static inline std::map<unsigned int, std::string> m_logger_erase = {
 		{1, "sensor.log"},
@@ -62,6 +63,7 @@ private:
 		{7, "CDT"},
 		{8, "AXL"},
 		{9, "PRESSURE"},
+		{10, "BARO"}, //Tom
 	};
 	static inline std::map<unsigned int, std::string> m_scalw = {
 		{0, "AXL"},
@@ -71,6 +73,7 @@ private:
 		{4, "RTD"},
 		{5, "CDT"},
 		{6, "MCP47X6"},
+		{7, "BARO"}, //Tom
 	};
 	unsigned int m_dumpd_NNN;
 	unsigned int m_dumpd_mmm;
