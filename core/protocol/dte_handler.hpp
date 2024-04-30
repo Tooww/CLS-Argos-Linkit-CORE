@@ -15,7 +15,7 @@ using namespace std::literals::string_literals;
 
 
 // This governs the maximum number of log entries we can read out in a single request
-#define DTE_HANDLER_MAX_LOG_DUMP_ENTRIES          9U                  // Tom // its was 8U
+#define DTE_HANDLER_MAX_LOG_DUMP_ENTRIES          8U                  // Tom // its was 8U
 
 enum class DTEAction {
 	NONE,    // Default action is none
