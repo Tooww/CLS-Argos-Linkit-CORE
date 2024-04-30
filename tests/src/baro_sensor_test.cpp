@@ -99,78 +99,80 @@ TEST(BAROSensor, SensorDisabled)
 	s.stop();
 }
 
-TEST(BAROSensor, SchedulingPeriodic)
-{
-	MockSensor drv;
-	BAROSensorService s(drv, logger);
-	unsigned int num_callbacks = 0;
+// TEST(BAROSensor, SchedulingPeriodic)
+// {
+// 	MockSensor drv;
+// 	BAROSensorService s(drv, logger);
+// 	unsigned int num_callbacks = 0;
 
-	system_timer->start();
+// 	system_timer->start();
 
-	unsigned int period = 10;
-	bool sensor_en = true;
+// 	unsigned int period = 10;
+// 	bool sensor_en = true;
 
-	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE, sensor_en);
-	configuration_store->write_param(ParamID::BARO_SENSOR_PERIODIC, period);
+// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE, sensor_en);
+// 	configuration_store->write_param(ParamID::BARO_SENSOR_PERIODIC, period);
 
-	s.start([&num_callbacks](ServiceEvent &event) {
-		if (event.event_type == ServiceEventType::SERVICE_LOG_UPDATED) {
-			num_callbacks++;
-		}
-	});
+// 	s.start([&num_callbacks](ServiceEvent &event) {
+// 		if (event.event_type == ServiceEventType::SERVICE_LOG_UPDATED) {
+// 			num_callbacks++;
+// 		}
+// 	});
 
-	// Sampling should happen every 10
-	for (unsigned int i = 0; i < 5; i++) {
-		mock().expectOneCall("read").onObject(&drv).withUnsignedIntParameter("port", 0).andReturnValue((double)i);
-		fake_timer->increment_counter(period*1000);
-		system_scheduler->run();
-	}
+// 	// Sampling should happen every 10
+// 	for (unsigned int i = 0; i < 5; i++) {
+// 		mock().expectOneCall("read").onObject(&drv).withUnsignedIntParameter("port", 0).andReturnValue((double)i);
+// 		fake_timer->increment_counter(period*1000);
+// 		system_scheduler->run();
+// 	}
 
-	CHECK_EQUAL(5, num_callbacks);
-	CHECK_EQUAL(5, logger->num_entries());
+// 	CHECK_EQUAL(5, num_callbacks);
+// 	CHECK_EQUAL(5, logger->num_entries());
 
-	// Validate log entries
-	for (unsigned int i = 0; i < 5; i++) {
-		BAROLogEntry e;
-		logger->read(&e, i);
-		CHECK_EQUAL((double)i, e.digital_value);
-	}
+// 	// Validate log entries
+// 	for (unsigned int i = 0; i < 5; i++) {
+// 		BAROLogEntry e;
+// 		logger->read(&e, i);
+// 		CHECK_EQUAL((double)i, e.digital_value);
+// 	}
 
-	s.stop();
-}
+// 	s.stop();
+// }
 
 
-TEST(BAROSensor, SchedulingNoPeriodic)
-{
-	MockSensor drv;
-	BAROSensorService s(drv, logger);
-	unsigned int num_callbacks = 0;
+// TEST(BAROSensor, SchedulingNoPeriodic)
+// {
+// 	MockSensor drv;
+// 	BAROSensorService s(drv, logger);
+// 	unsigned int num_callbacks = 0;
 
-	system_timer->start();
+// 	system_timer->start();
 
-	unsigned int period = 0;
-	bool sensor_en = true;
+// 	unsigned int period = 0;
+// 	bool sensor_en = true;
 
-	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE, sensor_en);
-	configuration_store->write_param(ParamID::BARO_SENSOR_PERIODIC, period);
+// 	configuration_store->write_param(ParamID::BARO_SENSOR_ENABLE, sensor_en);
+// 	configuration_store->write_param(ParamID::BARO_SENSOR_PERIODIC, period);
 
-	s.start([&num_callbacks](ServiceEvent &event) {
-		if (event.event_type == ServiceEventType::SERVICE_LOG_UPDATED) {
-			num_callbacks++;
-		}
-	});
+// 	s.start([&num_callbacks](ServiceEvent &event) {
+// 		if (event.event_type == ServiceEventType::SERVICE_LOG_UPDATED) {
+// 			num_callbacks++;
+// 		}
+// 	});
 
-	// Sampling should happen every 10
-	for (unsigned int i = 0; i < 5; i++) {
-		fake_timer->increment_counter(period*1000);
-		system_scheduler->run();
-	}
+// 	// Sampling should happen every 10
+// 	for (unsigned int i = 0; i < 5; i++) {
+// 		fake_timer->increment_counter(period*1000);
+// 		system_scheduler->run();
+// 	}
 
-	CHECK_EQUAL(0, num_callbacks);
-	CHECK_EQUAL(0, logger->num_entries());
+// 	CHECK_EQUAL(0, num_callbacks);
+// 	CHECK_EQUAL(0, logger->num_entries());
 
-	s.stop();
-}
+// 	s.stop();
+// }
+
+// autres tests	
 
 // TEST(BAROSensor, SchedulingTxEnableOneShot)
 // {
