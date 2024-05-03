@@ -58,7 +58,7 @@ void ads1015LL::read(int& digital_value) {
     digital_value = (double)digital_value; 
     DEBUG_TRACE("ads1015LL::read: %f digit", digital_value);
     digital_value = (digital_value/2047)*5;
-    DEBUG_TRACE("ads1015LL::read: %f V", digital_value);
+    DEBUG_TRACE("ads1015LL::read: %f Volt", digital_value);
     digital_value = 800 +((1060-800)/5)*digital_value;
     DEBUG_TRACE("ads1015LL::read: %f hPa", digital_value);
 }

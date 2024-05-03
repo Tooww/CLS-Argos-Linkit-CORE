@@ -310,7 +310,7 @@ protected:
 		/* PRESSURE_SENSOR_ENABLE_TX_MAX_SAMPLES */ 1U,
 		/* PRESSURE_SENSOR_ENABLE_TX_SAMPLE_PERIOD */ 1000U,
 		/* BARO_SENSOR_ENABLE_TX_MAX_SAMPLES */// 1U,    				//Tom 
-		/* BARO_SENSOR_ENABLE */ (bool)false,							//Tom
+		/* BARO_SENSOR_ENABLE */ (bool)true,							//Tom
 		/* BARO_SENSOR_PERIODIC */ 0U,									//Tom
 		/* BARO_SENSOR_ENABLE_TX_SAMPLE_PERIOD */// 1000U,				//Tom
 		/* BARO_SENSOR_ENABLE_TX_MODE */// BaseSensorEnableTxMode::OFF, 	//Tom
