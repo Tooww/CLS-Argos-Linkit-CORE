@@ -35,15 +35,15 @@ protected:
 						switch (sensor_enable_tx_mode()) {
 						case BaseSensorEnableTxMode::ONESHOT:
 							sensor.port[chan] = compute_oneshot_samples(m_samples[chan]);
-							//DEBUG_TRACE("[%s] oneshot[%u]=%f", get_name(), chan, sensor.port[chan]);
+							DEBUG_TRACE("[%s] oneshot[%u]=%f", get_name(), chan, sensor.port[chan]);
 							break;
 						case BaseSensorEnableTxMode::MEAN:
 							sensor.port[chan] = compute_mean_samples(m_samples[chan]);
-							//DEBUG_TRACE("[%s] mean[%u]=%f", get_name(), chan, sensor.port[chan]);
+							DEBUG_TRACE("[%s] mean[%u]=%f", get_name(), chan, sensor.port[chan]);
 							break;
 						case BaseSensorEnableTxMode::MEDIAN:
 							sensor.port[chan] = compute_median_samples(m_samples[chan]);
-							//DEBUG_TRACE("[%s] median[%u]=%f", get_name(), chan, sensor.port[chan]);
+							DEBUG_TRACE("[%s] median[%u]=%f", get_name(), chan, sensor.port[chan]);
 							break;
 						default:
 						case BaseSensorEnableTxMode::OFF:

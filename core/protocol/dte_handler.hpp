@@ -73,7 +73,7 @@ private:
 		{4, "RTD"},
 		{5, "CDT"},
 		{6, "MCP47X6"},
-		{7, "BARO"}, //Tom
+		// {7, "BARO"}, //Tom
 	};
 	unsigned int m_dumpd_NNN;
 	unsigned int m_dumpd_mmm;
