@@ -18,6 +18,7 @@ protected:
 		try {
 			if (m_sensor_background_active) {
 				m_sample_number++;
+				DEBUG_TRACE("SensorService: test 1");
 				for (unsigned int chan = 0; chan < sensor_num_channels(); chan++) {
 					m_samples[chan].push_back(m_sensor.read(chan));
 				}
@@ -26,6 +27,7 @@ protected:
 							!gnss_shutdown &&
 							(sensor_enable_tx_mode() != BaseSensorEnableTxMode::ONESHOT &&
 									m_sample_number < sensor_max_samples()));
+					DEBUG_TRACE("SensorService: test 2");
 				}
 
 				if (gnss_shutdown || m_sample_number >= sensor_max_samples()) {
@@ -48,7 +50,7 @@ protected:
 						default:
 						case BaseSensorEnableTxMode::OFF:
 							break;
-						}
+						} 
 					}
 					LogEntry e;
 					ServiceEventData data = sensor;
