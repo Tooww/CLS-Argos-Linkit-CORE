@@ -55,7 +55,8 @@ void ads1015LL::read(int& digital_value) {
     }
     
     uint16_t bin_value = sample_adc(ads1015Command::CONV_REG);
-    
+    DEBUG_TRACE("sample adc test");
+
     digital_value = (int)(bin_value >> 5);
     digital_value = (double)digital_value; 
     DEBUG_TRACE("ads1015LL::read: %f digit", digital_value);
@@ -70,10 +71,11 @@ void ads1015LL::read(int& digital_value) {
 uint16_t ads1015LL::sample_adc(uint8_t measurement) {
     uint8_t cmd = measurement;  
     send_command(cmd);
-    PMU::delay_ms(10);
+    PMU::delay_ms(50);
     uint8_t read_buffer[2];
+     DEBUG_TRACE("ads1015LL::sample_adc1");
     NrfI2C::read(m_bus,m_addr,read_buffer,2);
-    DEBUG_TRACE("ads1015LL::sample_adc");
+    DEBUG_TRACE("ads1015LL::sample_adc2");
     return ((uint16_t)read_buffer[0] << 8 ) + ((uint16_t)read_buffer[1]);
     
 }
