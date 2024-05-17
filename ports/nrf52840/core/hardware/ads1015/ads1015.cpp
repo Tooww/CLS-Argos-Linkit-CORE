@@ -54,7 +54,7 @@ void ads1015LL::read(int& digital_value) {
       PMU::delay_ms(10);
       flag = 0;  
     }
-    
+    DEBUG_TRACE("sample adc test0");
     uint16_t bin_value = sample_adc(ads1015Command::CONV_REG);
     DEBUG_TRACE("sample adc test");
 
