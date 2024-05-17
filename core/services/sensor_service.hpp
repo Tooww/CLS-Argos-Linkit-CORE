@@ -15,6 +15,7 @@ public:
 protected:
 	Sensor &m_sensor;
 	void sensor_handler(bool reschedule = true, bool gnss_shutdown = false) {
+		DEBUG_TRACE("SensorService: test 0");
 		try {
 			if (m_sensor_background_active) {
 				m_sample_number++;
