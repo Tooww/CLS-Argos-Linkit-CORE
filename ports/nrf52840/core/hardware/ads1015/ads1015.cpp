@@ -25,6 +25,7 @@ ads1015LL::ads1015LL(unsigned int bus, unsigned char addr, int wakeup_pin) : m_b
 
 void ads1015LL::send_command(uint8_t command)
 {
+  DEBUG_TRACE("ads1015LL::send_command");
 	NrfI2C::write(m_bus, m_addr, (uint8_t *)&command, sizeof(command), false);
 }
 
@@ -69,11 +70,13 @@ void ads1015LL::read(int& digital_value) {
 
 
 uint16_t ads1015LL::sample_adc(uint8_t measurement) {
+    DEBUG_TRACE("ads1015LL::sample_adc0");
     uint8_t cmd = measurement;  
     send_command(cmd);
     PMU::delay_ms(50);
+
     uint8_t read_buffer[2];
-     DEBUG_TRACE("ads1015LL::sample_adc1");
+    DEBUG_TRACE("ads1015LL::sample_adc1");
     NrfI2C::read(m_bus,m_addr,read_buffer,2);
     DEBUG_TRACE("ads1015LL::sample_adc2");
     return ((uint16_t)read_buffer[0] << 8 ) + ((uint16_t)read_buffer[1]);
