@@ -43,7 +43,7 @@ void NrfI2C::write(uint8_t bus, uint8_t address, const uint8_t *buffer, unsigned
 		throw ErrorCode::RESOURCE_NOT_AVAILABLE;
 	nrfx_err_t error = nrfx_twim_tx(&BSP::I2C_Inits[bus].twim, address, buffer, length, no_stop);
     if (NRFX_SUCCESS != error) {
-		error +=1; // Tom Test
+		
     	DEBUG_ERROR("NrfI2C::write(%u,%02x,%u)=%08x", (unsigned int)bus, (unsigned int)address, (unsigned int)length, (unsigned int)error);
         throw ErrorCode::I2C_COMMS_ERROR;
     }
