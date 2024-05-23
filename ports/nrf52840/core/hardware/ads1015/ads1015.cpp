@@ -36,7 +36,7 @@ void ads1015LL::send_command_conf(uint8_t *command)
 }
 
 
-void ads1015LL::read(double& digital_value) {
+void ads1015LL::read(int& digital_value) {
     //start trigger
     //code gpio trig ;
     //int flag = 1;
