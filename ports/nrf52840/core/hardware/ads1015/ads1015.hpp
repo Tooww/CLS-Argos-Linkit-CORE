@@ -58,5 +58,5 @@ public:
 
 private:
 ads1015LL m_ads1015;
-int m_digital_value; 
+double m_digital_value; 
 };
