@@ -63,12 +63,12 @@ void ads1015LL::read(int& digital_value) {
     digital_value = (int)(bin_value);  
     DEBUG_TRACE("ads1015LL::read: digital value = %u ", digital_value);
     DEBUG_TRACE("ads1015LL::read: %u bin >>5 digital value = %u ", bin_value,digital_value); 
-    digital_value = (double)digital_value; 
-    DEBUG_TRACE("ads1015LL::read: %f digit", digital_value);
+    //digital_value = (double)digital_value; 
+    DEBUG_TRACE("ads1015LL::read: %u digit", digital_value);
     digital_value = (digital_value/2047)*5;
-    DEBUG_TRACE("ads1015LL::read: %f Volt", digital_value);
+    DEBUG_TRACE("ads1015LL::read: %u Volt", digital_value);
     digital_value = 800 +((1060-800)/5)*digital_value;
-    DEBUG_TRACE("ads1015LL::read: %f hPa", digital_value);
+    DEBUG_TRACE("ads1015LL::read: %u hPa", digital_value);
 }
 
 
