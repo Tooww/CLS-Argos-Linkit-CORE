@@ -36,7 +36,7 @@ void ads1015LL::send_command_conf(uint8_t *command)
 }
 
 
-void ads1015LL::read(int& digital_value) {
+void ads1015LL::read(double& digital_value) {
     //start trigger
     //code gpio trig ;
     //int flag = 1;
@@ -57,7 +57,7 @@ void ads1015LL::read(int& digital_value) {
     DEBUG_TRACE("sample adc test0");
     uint16_t bin_value = sample_adc(ads1015Command::CONV_REG);
     DEBUG_TRACE("sample adc test");
-
+    int digital_value_int; 
     DEBUG_TRACE("ads1015LL::read: %u bin", bin_value); 
     bin_value = bin_value >> 5; // /!!! Tom test ">> 5" normaly  
     digital_value_int = (int)(bin_value); 
