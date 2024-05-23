@@ -14,7 +14,7 @@ public:
 	int m_wakeup_pin;
 	ads1015LL(unsigned int bus, unsigned char addr, int wakeup_pin);
 	//~ads1015LL();
-	void read(int& digital_value);
+	void read(double& digital_value);
 	
     //void set_wakeup_threshold(double threshold);
 	//void set_wakeup_duration(double duration);
