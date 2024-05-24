@@ -59,7 +59,7 @@ void ads1015LL::read(double& digital_value) {
     DEBUG_TRACE("sample adc test");
     int digital_value_int; 
     DEBUG_TRACE("ads1015LL::read: %u bin", bin_value); 
-    bin_value = bin_value >> 5; // /!!! Tom test ">> 5" normaly  
+    bin_value = bin_value >> 4; // /!!! Tom test ">> 5" normaly  
     digital_value_int = (int)(bin_value); 
     digital_value = (double)digital_value_int;  
     DEBUG_TRACE("ads1015LL::read: digital value int = %u   ", digital_value_int);
