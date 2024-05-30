@@ -79,9 +79,9 @@ uint16_t ads1015LL::sample_adc(uint8_t measurement) {
     DEBUG_TRACE("ads1015LL::sample_adc0");
     uint8_t cmd = measurement;  
     send_command(cmd);
-    PMU::delay_ms(10);
+    PMU::delay_ms(50);
 
-    uint8_t read_buffer[2];
+    uint8_t read_buffer[2] = {0,0};
 
     DEBUG_TRACE("ads1015LL::sample_adc1 %u",read_buffer);
     NrfI2C::read(m_bus,m_addr,read_buffer,2);
