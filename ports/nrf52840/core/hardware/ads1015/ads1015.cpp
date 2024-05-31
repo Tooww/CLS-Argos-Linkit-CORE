@@ -14,7 +14,7 @@
 
 
 
-static int flag = 0; // normaly 1 
+static int flag = 1; // normaly 1 
 
 
 
@@ -46,7 +46,7 @@ void ads1015LL::read(double& digital_value) {
      
 
     DEBUG_TRACE("Flag value before if statement: %d", flag);
-    if (flag==0) //normaly 1 
+    if (flag==1) //normaly 1 
     {
       flag=0;
       uint8_t write_buffer[3] = {ads1015Command::CONFIG_REG,ads1015Command::MSB_CONFIG,ads1015Command::LSB_CONFIG};
