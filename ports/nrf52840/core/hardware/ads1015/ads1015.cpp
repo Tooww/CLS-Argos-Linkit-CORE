@@ -83,10 +83,10 @@ uint16_t ads1015LL::sample_adc(uint8_t measurement) {
 
     uint8_t read_buffer_b[2] = {0,0};
 
-    DEBUG_TRACE("ads1015LL::sample_adc1 %u %u",read_buffer_b[0],read_buffer[1]);
+    DEBUG_TRACE("ads1015LL::sample_adc1 %u-%u",read_buffer_b[0],read_buffer[1]);
     NrfI2C::read(m_bus,m_addr,read_buffer_b,2);
     DEBUG_TRACE("ads1015LL::sample_adc2 ");
-    DEBUG_TRACE("buffer = %u %u",read_buffer_b[0],read_buffer[1]); 
+    DEBUG_TRACE("buffer = %u-%u",read_buffer_b[0],read_buffer[1]); 
     uint16_t value_test = ((uint16_t)read_buffer_b[0] << 8 ) + ((uint16_t)read_buffer_b[1]);
     DEBUG_TRACE("value_test = %u",value_test);
     return ((uint16_t)read_buffer_b[0] << 8 ) + ((uint16_t)read_buffer_b[1]);
