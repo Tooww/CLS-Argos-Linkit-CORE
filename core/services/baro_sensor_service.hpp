@@ -8,7 +8,7 @@
 struct __attribute__((packed)) BAROLogEntry {
 	LogHeader header;
 	union {
-		int digital_value;
+		double digital_value;
 		uint8_t data[MAX_LOG_PAYLOAD];
 	};
 };
