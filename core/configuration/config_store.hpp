@@ -761,6 +761,8 @@ public:
 				(int)(read_param<bool>(ParamID::SEA_TEMP_SENSOR_ENABLE) && read_param<BaseSensorEnableTxMode>(ParamID::SEA_TEMP_SENSOR_ENABLE_TX_MODE) != BaseSensorEnableTxMode::OFF) << (int)ServiceIdentifier::SEA_TEMP_SENSOR;
 			argos_config.sensor_tx_enable |=
 				(int)(read_param<bool>(ParamID::PH_SENSOR_ENABLE) && read_param<BaseSensorEnableTxMode>(ParamID::PH_SENSOR_ENABLE_TX_MODE) != BaseSensorEnableTxMode::OFF) << (int)ServiceIdentifier::PH_SENSOR;
+				argos_config.sensor_tx_enable |=
+				(int)(read_param<bool>(ParamID::BARO_SENSOR_ENABLE) && read_param<BaseSensorEnableTxMode>(ParamID::BARO_SENSOR_ENABLE_TX_MODE) != BaseSensorEnableTxMode::OFF) << (int)ServiceIdentifier::BARO_SENSOR;
 		}
 	}
 
