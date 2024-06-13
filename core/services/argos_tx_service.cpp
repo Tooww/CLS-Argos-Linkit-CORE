@@ -231,6 +231,7 @@ void ArgosTxService::process_sensor_burst() {
 				m_depth_pile_manager.retrieve_sensor_single((unsigned int)argos_config.depth_pile, ServiceIdentifier::PH_SENSOR),
 				m_depth_pile_manager.retrieve_sensor_single((unsigned int)argos_config.depth_pile, ServiceIdentifier::PRESSURE_SENSOR),
 				m_depth_pile_manager.retrieve_sensor_single((unsigned int)argos_config.depth_pile, ServiceIdentifier::SEA_TEMP_SENSOR),
+				m_depth_pile_manager.retrieve_sensor_single((unsigned int)argos_config.depth_pile, ServiceIdentifier::BARO_SENSOR), //Tom
 				argos_config.is_lb,
 				argos_config.is_out_of_zone,
 				size_bits);
@@ -602,6 +603,7 @@ ArticPacket ArgosPacketBuilder::build_sensor_packet(GPSLogEntry* gps_entry,
 		ServiceSensorData *ph_sensor,
 		ServiceSensorData *pressure_sensor,
 		ServiceSensorData *sea_temp_sensor,
+		ServiceSensorData *baro_sensor, //Tom
 		bool is_out_of_zone, bool is_low_battery,
 		unsigned int& size_bits) {
 
@@ -678,6 +680,10 @@ ArticPacket ArgosPacketBuilder::build_sensor_packet(GPSLogEntry* gps_entry,
 	if (sea_temp_sensor != nullptr) {
 		DEBUG_TRACE("ArgosPacketBuilder::build_sensor_packet: sea_temp=%06X", (unsigned int)sea_temp_sensor->port[0]);
 		PACK_BITS((unsigned int)sea_temp_sensor->port[0], packet, base_pos, 21);
+	}
+	if (baro_sensor != nullptr) {
+		DEBUG_TRACE("ArgosPacketBuilder::build_sensor_packet: baro=%06X", (unsigned int)baro_sensor->port[0]);
+		PACK_BITS((unsigned int)baro_sensor->port[0], packet, base_pos, 21); // Tom 
 	}
 
 	// Calculate CRC8
@@ -1003,6 +1009,14 @@ void ArgosDepthPileManager::notify_peer_event(ServiceEvent& e) {
 		ServiceSensorData& entry = std::get<ServiceSensorData>(e.event_data);
 		m_sea_temp_cache.port[0] = (unsigned int)((entry.port[0] + 126.0) * 1000U);
 		m_sensor_tx_current |= (1 << (int)ServiceIdentifier::SEA_TEMP_SENSOR);
+	
+	} else if (e.event_source == ServiceIdentifier::BARO_SENSOR &&   // Tom //
+			e.event_type == ServiceEventType::SERVICE_LOG_UPDATED) {
+		DEBUG_TRACE("ArgosDepthPileManager::notify_peer_event: BARO cache set");
+		ServiceSensorData& entry = std::get<ServiceSensorData>(e.event_data);
+		m_baro_cache.port[0] = (unsigned int)((entry.port[0] + 0) * 1000U);
+		m_sensor_tx_current |= (1 << (int)ServiceIdentifier::BARO_SENSOR); //Tom // 
+		
 	} else if (e.event_source == ServiceIdentifier::GNSS_SENSOR &&
 			e.event_type == ServiceEventType::SERVICE_INACTIVE) {
 
@@ -1028,6 +1042,12 @@ void ArgosDepthPileManager::notify_peer_event(ServiceEvent& e) {
 						((1 << (int)ServiceIdentifier::SEA_TEMP_SENSOR) & m_sensor_tx_current) == 0) {
 					m_sea_temp_cache.port[0] = 0xFFFFFFFF;
 					m_sensor_tx_current |= (1 << (int)ServiceIdentifier::SEA_TEMP_SENSOR);
+				}
+
+				else if (((1 << (int)ServiceIdentifier::BARO_SENSOR) & m_sensor_tx_enable) &&  //Tom
+						((1 << (int)ServiceIdentifier::BARO_SENSOR) & m_sensor_tx_current) == 0) {
+					m_baro_cache.port[0] = 0xFFFFFFFF;
+					m_sensor_tx_current |= (1 << (int)ServiceIdentifier::BARO_SENSOR);
 				}
 				update_depth_pile();
 			}, "DepthPileTimeout", Scheduler::DEFAULT_PRIORITY, 2000U);
@@ -1071,6 +1091,10 @@ void ArgosDepthPileManager::update_depth_pile() {
 		if (m_sensor_tx_current & (1 << (int)ServiceIdentifier::SEA_TEMP_SENSOR)) {
 			// Store the entry into the depth pile
 			m_sea_temp_depth_pile.store(m_sea_temp_cache, burst_counter);
+		}
+		if (m_sensor_tx_current & (1 << (int)ServiceIdentifier::BARO_SENSOR)) {  // Tom
+			// Store the entry into the depth pile
+			m_baro_depth_pile.store(m_baro_cache, burst_counter);
 		}
 		m_sensor_tx_current = 0;
 	}
