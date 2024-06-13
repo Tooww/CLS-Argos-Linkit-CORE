@@ -49,7 +49,7 @@ public:
 		unsigned int count = 0;
 		for (auto const& it : m_entry) {
 			if (it.burst_counter) count++;
-		}
+		} 
 		return count;
 	}
 
@@ -234,7 +234,7 @@ public:
 		m_ph_depth_pile.clear();
 		m_pressure_depth_pile.clear();
 		m_sea_temp_depth_pile.clear();
-		m_baro_temp_depth_pile.clear();
+		m_baro_depth_pile.clear();
 	}
 	bool eligible() {
 		return m_gps_depth_pile.eligible();
