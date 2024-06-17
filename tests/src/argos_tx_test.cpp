@@ -1478,6 +1478,8 @@ TEST(ArgosTxService, DepthPileManagerTestSensorValueConversion)
 	fake_config_store->write_param(ParamID::PRESSURE_SENSOR_ENABLE_TX_MODE, mode);
 	fake_config_store->write_param(ParamID::SEA_TEMP_SENSOR_ENABLE, enable);
 	fake_config_store->write_param(ParamID::SEA_TEMP_SENSOR_ENABLE_TX_MODE, mode);
+	fake_config_store->write_param(ParamID::BARO_SENSOR_ENABLE, enable);
+	fake_config_store->write_param(ParamID::BARO_SENSOR_ENABLE_TX_MODE, mode);
 
 	ArgosDepthPileManager man;
 
@@ -1518,6 +1520,12 @@ TEST(ArgosTxService, DepthPileManagerTestSensorValueConversion)
 	e.event_type = ServiceEventType::SERVICE_LOG_UPDATED;
 	man.notify_peer_event(e);
 
+	sensor.port[0] = 12.42; // Change ???  // Tom 
+	e.event_data = sensor;
+	e.event_source = ServiceIdentifier::BARO_SENSOR;
+	e.event_type = ServiceEventType::SERVICE_LOG_UPDATED;
+	man.notify_peer_event(e);
+
 	e.event_type = ServiceEventType::SERVICE_INACTIVE;
 	man.notify_peer_event(e);
 
@@ -1535,12 +1543,15 @@ TEST(ArgosTxService, DepthPileManagerTestSensorValueConversion)
 	converted = man.retrieve_sensor_single(1, ServiceIdentifier::SEA_TEMP_SENSOR);
 	CHECK_FALSE(nullptr == converted);
 	CHECK_EQUAL(113657, (unsigned int)converted->port[0]);
+	converted = man.retrieve_sensor_single(1, ServiceIdentifier::BARO_SENSOR); // Tom
+	CHECK_FALSE(nullptr == converted);
+	CHECK_EQUAL(1242, (unsigned int)converted->port[0]); // Tom change ???
 }
 
 TEST(ArgosTxService, BuildSensorPacketAll) {
 	unsigned int size_bits;
 	GPSLogEntry e = make_gps_location(1, 12.3, 44.4, 1652105502);
-	ServiceSensorData als, ph, pressure, sea_temp;
+	ServiceSensorData als, ph, pressure, sea_temp, baro; // Tom 
 	std::string x;
 
 	als.port[0] = 10000; // 10000 lux
@@ -1548,25 +1559,30 @@ TEST(ArgosTxService, BuildSensorPacketAll) {
 	pressure.port[0] = 1000; // 1.0 bar
 	pressure.port[1] = 4000; // 0C
 	sea_temp.port[0] = 126000; // 0C
+	baro.port[0] = 26000; // 0C // Tom change ???  1050.15 hPa 
 
-	x = ArgosPacketBuilder::build_sensor_packet(&e, nullptr, nullptr, nullptr, nullptr, false, false, size_bits);
+
+	x = ArgosPacketBuilder::build_sensor_packet(&e, nullptr, nullptr, nullptr, nullptr, nullptr, false, false, size_bits); // Tom  change here also 
 	CHECK_EQUAL("CC4B8B3633003C0F0012DB3750A6C0"s, Binascii::hexlify(x));
 	CHECK_EQUAL(115, size_bits);
-	x = ArgosPacketBuilder::build_sensor_packet(&e, &als, &ph, &pressure, &sea_temp, false, false, size_bits);
+	x = ArgosPacketBuilder::build_sensor_packet(&e, &als, &ph, &pressure, &sea_temp, &baro, false, false, size_bits);   // Tom 
 	CHECK_EQUAL("DB4B8B3633003C0F0012C27106D601F41F401EC30D29A43B60"s, Binascii::hexlify(x));
-	CHECK_EQUAL(196, size_bits);
-	x = ArgosPacketBuilder::build_sensor_packet(&e, nullptr, &ph, &pressure, &sea_temp, false, false, size_bits);
+	CHECK_EQUAL(211, size_bits);
+	x = ArgosPacketBuilder::build_sensor_packet(&e, nullptr, &ph, &pressure, &sea_temp, &baro, false, false, size_bits);  // Tom 
 	CHECK_EQUAL("9D4B8B3633003C0F0012CDAC03E83E803D86016C0F00A0"s, Binascii::hexlify(x));
-	CHECK_EQUAL(196 - 17, size_bits);
-	x = ArgosPacketBuilder::build_sensor_packet(&e, &als, nullptr, &pressure, &sea_temp, false, false, size_bits);
+	CHECK_EQUAL(211 - 17, size_bits);
+	x = ArgosPacketBuilder::build_sensor_packet(&e, &als, nullptr, &pressure, &sea_temp, &baro, false, false, size_bits);  // Tom 
 	CHECK_EQUAL("014B8B3633003C0F0012C271007D07D007B0C35F8554C8"s, Binascii::hexlify(x));
-	CHECK_EQUAL(196 - 14, size_bits);
-	x = ArgosPacketBuilder::build_sensor_packet(&e, &als, &ph, nullptr, &sea_temp, false, false, size_bits);
+	CHECK_EQUAL(211 - 14, size_bits);
+	x = ArgosPacketBuilder::build_sensor_packet(&e, &als, &ph, nullptr, &sea_temp, &baro, false, false, size_bits);  // Tom 
 	CHECK_EQUAL("9A4B8B3633003C0F0012C27106D603D860B455F0FE"s, Binascii::hexlify(x));
-	CHECK_EQUAL(196 - 29, size_bits);
-	x = ArgosPacketBuilder::build_sensor_packet(&e, &als, &ph, &pressure, nullptr, false, false, size_bits);
+	CHECK_EQUAL(211 - 29, size_bits);
+	x = ArgosPacketBuilder::build_sensor_packet(&e, &als, &ph, &pressure, nullptr, &baro, false, false, size_bits); // Tom 
 	CHECK_EQUAL("554B8B3633003C0F0012C27106D601F41F41C886E7C4"s, Binascii::hexlify(x));
-	CHECK_EQUAL(196 - 21, size_bits);
+	CHECK_EQUAL(211 - 21, size_bits);
+	x = ArgosPacketBuilder::build_sensor_packet(&e, &als, &ph, &pressure, &sea_temp, nullptr, false, false, size_bits); // Tom 
+	CHECK_EQUAL("554B8B3633003C0F0012C27106D601F41F41C886E7C4"s, Binascii::hexlify(x));
+	CHECK_EQUAL(211 - 15, size_bits);
 }
 
 TEST(ArgosTxService, BuildSensorPacketSeaTemp) {
