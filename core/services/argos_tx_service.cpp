@@ -683,7 +683,7 @@ ArticPacket ArgosPacketBuilder::build_sensor_packet(GPSLogEntry* gps_entry,
 	}
 	if (baro_sensor != nullptr) {
 		DEBUG_TRACE("ArgosPacketBuilder::build_sensor_packet: baro=%06X", (unsigned int)baro_sensor->port[0]);
-		PACK_BITS((unsigned int)baro_sensor->port[0], packet, base_pos, 21); // Tom 
+		PACK_BITS((unsigned int)baro_sensor->port[0], packet, base_pos, 15); // Tom 
 	}
 
 	// Calculate CRC8
@@ -1014,7 +1014,7 @@ void ArgosDepthPileManager::notify_peer_event(ServiceEvent& e) {
 			e.event_type == ServiceEventType::SERVICE_LOG_UPDATED) {
 		DEBUG_TRACE("ArgosDepthPileManager::notify_peer_event: BARO cache set");
 		ServiceSensorData& entry = std::get<ServiceSensorData>(e.event_data);
-		m_baro_cache.port[0] = (unsigned int)((entry.port[0] + 0) * 1000U);
+		m_baro_cache.port[0] = (unsigned int)((entry.port[0] + 800) * 100U);
 		m_sensor_tx_current |= (1 << (int)ServiceIdentifier::BARO_SENSOR); //Tom // 
 		
 	} else if (e.event_source == ServiceIdentifier::GNSS_SENSOR &&
