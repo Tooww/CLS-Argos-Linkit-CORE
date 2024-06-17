@@ -1593,7 +1593,7 @@ TEST(ArgosTxService, BuildSensorPacketSeaTemp) {
 
 	sea_temp.port[0] = 147100; // 21.1C
 
-	x = ArgosPacketBuilder::build_sensor_packet(&e, nullptr, nullptr, nullptr, &sea_temp, false, false, size_bits);
+	x = ArgosPacketBuilder::build_sensor_packet(&e, nullptr, nullptr, nullptr, &sea_temp, nullptr, false, false, size_bits);
 	CHECK_EQUAL("0A4B8B3633003C0F0012C23E9CBCE00BD1"s, Binascii::hexlify(x));
 	CHECK_EQUAL(136, size_bits);
 }
