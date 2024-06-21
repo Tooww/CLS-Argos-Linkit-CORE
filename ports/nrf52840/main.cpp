@@ -501,19 +501,19 @@ int main()
 #endif
 //#ifdef ARTIC_EXT_LED_CONFLICT
 //		GPIOPins::disable(ARTIC_EXT_LED_CONFLICT); // Tom 
-#endif
-	} catch (...) {
-		DEBUG_TRACE("Artic R2 not detected");
-	}
+// #endif
+// 	} catch (...) {
+// 		DEBUG_TRACE("Artic R2 not detected");
+// 	}
 
-	DEBUG_TRACE("GPS M8Q ...");
-	try {
-		static M8QAsyncReceiver m8q_gnss;
-		static GPSService gps_service(m8q_gnss, &fs_sensor_log);
-		static GNSSDetectorService gps_detector(m8q_gnss);
-	} catch (...) {
-		DEBUG_TRACE("GPS M8Q not detected");
-	}
+// 	DEBUG_TRACE("GPS M8Q ...");
+// 	try {
+// 		static M8QAsyncReceiver m8q_gnss;
+// 		static GPSService gps_service(m8q_gnss, &fs_sensor_log);
+// 		static GNSSDetectorService gps_detector(m8q_gnss);
+// 	} catch (...) {
+// 		DEBUG_TRACE("GPS M8Q not detected");
+// 	}
 
 	DEBUG_TRACE("MS58xx...");
 	MS58xxLL *ms58xx_devices[BSP::I2C_TOTAL_NUMBER];
