@@ -64,7 +64,6 @@ void ads1015LL::read(double& digital_value) {
     DEBUG_TRACE("sample adc test");
     int digital_value_int; 
     DEBUG_TRACE("ads1015LL::read: %u bin", bin_value); 
-    bin_value = bin_value * 3.0F;
     bin_value = bin_value >> 4; // /!!! Tom test ">> 4" normaly  
     digital_value_int = (int)(bin_value); 
     digital_value = (double)digital_value_int;  
@@ -73,7 +72,7 @@ void ads1015LL::read(double& digital_value) {
     DEBUG_TRACE("ads1015LL::read: %u bin >> 4 digital value = %f ", bin_value,digital_value); 
     //digital_value = (double)digital_value; 
     DEBUG_TRACE("ads1015LL::read: %f digit", digital_value);
-    digital_value = digital_value/1000;
+    digital_value = ((digital_value*3)/4096.0) * 5;
     //digital_value = (digital_value/1666)*5;
     DEBUG_TRACE("ads1015LL::read: %f Volt", digital_value);
     digital_value = 800 +((1060-800)/5)*digital_value;
@@ -86,9 +85,9 @@ uint16_t ads1015LL::sample_adc(uint8_t measurement) {
     DEBUG_TRACE("ads1015LL::sample_adc0");
     uint8_t cmd = measurement;  
     send_command(cmd);
-    PMU::delay_ms(500);
+    PMU::delay_ms(50);
 
-    uint8_t read_buffer_b[2];
+    uint8_t read_buffer_b[2] = {0,0};
 
     DEBUG_TRACE("ads1015LL::sample_adc1-0 %u",read_buffer_b[0]);
     DEBUG_TRACE("ads1015LL::sample_adc1-1 %u",read_buffer_b[1]);
