@@ -41,12 +41,14 @@ void ads1015LL::read(double& digital_value) {
     //code gpio trig ;
     //int flag = 1;
 
-    DEBUG_TRACE("BAROMETER_SLEEP_EN is set to HIGH"); 
-    GPIOPins::enable(BAROMETER_SLEEP_EN);
-    GPIOPins::set(BAROMETER_SLEEP_EN);
+    DEBUG_TRACE("BAROMETER_SLEEP_EN is set to HIGH");
+     
+    //GPIOPins::set(BAROMETER_SLEEP_EN);
+    GPIOPins::set(BSP::GPIO::GPIO_EXT1_GPIO3);
     PMU::delay_ms(1000);
     //DEBUG_TRACE("BAROMETER_SLEEP_EN is set to LOW");
-     //GPIOPins::clear(BAROMETER_SLEEP_EN);
+    //GPIOPins::clear(BAROMETER_SLEEP_EN);
+    //GPIOPins::set(BSP::GPIO::GPIO_EXT1_GPIO3);
 
      
 
