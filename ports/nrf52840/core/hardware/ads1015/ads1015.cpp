@@ -11,6 +11,7 @@
 
 #include "ads1015.hpp"
 #include "gpio.hpp"
+#include "nrf_gpio.h"
 
 
 
@@ -45,10 +46,11 @@ void ads1015LL::read(double& digital_value) {
      
     //GPIOPins::set(BAROMETER_SLEEP_EN);
     GPIOPins::set(BSP::GPIO::GPIO_EXT1_GPIO3);
-    PMU::delay_ms(1000);
-    //DEBUG_TRACE("BAROMETER_SLEEP_EN is set to LOW");
-    //GPIOPins::clear(BAROMETER_SLEEP_EN);
-    //GPIOPins::set(BSP::GPIO::GPIO_EXT1_GPIO3);
+    PMU::delay_ms(5000);
+    DEBUG_TRACE("BAROMETER_SLEEP_EN is set to LOW");
+    GPIOPins::clear(BAROMETER_SLEEP_EN);
+    PMU::delay_ms(5000);
+    GPIOPins::set(BSP::GPIO::GPIO_EXT1_GPIO3);
 
      
 
