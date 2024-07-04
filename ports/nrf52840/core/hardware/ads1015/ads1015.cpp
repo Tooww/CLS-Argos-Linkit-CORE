@@ -15,7 +15,7 @@
 
 
 
-static int flag = 0; // normaly 0 
+//static int flag = 0; // normaly 0 
 
 
 
@@ -42,25 +42,19 @@ void ads1015LL::read(double& digital_value) {
     //code gpio trig ;
     //int flag = 1;
 
-    DEBUG_TRACE("BAROMETER_SLEEP_EN is set to HIGH");
-     
-    //GPIOPins::set(BAROMETER_SLEEP_EN);
     
-    DEBUG_TRACE("BAROMETER_SLEEP_EN is set to LOW");
-    GPIOPins::clear(BAROMETER_SLEEP_EN);
-    PMU::delay_ms(5000);
-    GPIOPins::set(BSP::GPIO::GPIO_EXT1_GPIO3);
+   
      
 
-    DEBUG_TRACE("Flag value before if statement: %d", flag);
-    if (flag==0) //normaly 0 
-    {
-      flag=0;
-      uint8_t write_buffer[3] = {ads1015Command::CONFIG_REG,ads1015Command::MSB_CONFIG,ads1015Command::LSB_CONFIG};
-      send_command_conf(write_buffer);
-      PMU::delay_ms(10);
-      flag = 0;  
-    }
+    //DEBUG_TRACE("Flag value before if statement: %d", flag);
+   // if (flag==0) //normaly 0 
+    //{
+      //flag=0;
+    uint8_t write_buffer[3] = {ads1015Command::CONFIG_REG,ads1015Command::MSB_CONFIG,ads1015Command::LSB_CONFIG};
+    send_command_conf(write_buffer);
+    PMU::delay_ms(10);
+      //flag = 0;  
+    //}
     DEBUG_TRACE("sample adc test0");
     uint16_t bin_value = sample_adc(ads1015Command::CONV_REG);
     DEBUG_TRACE("sample adc test");
