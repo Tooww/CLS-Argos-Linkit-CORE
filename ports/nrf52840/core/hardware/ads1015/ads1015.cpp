@@ -45,13 +45,11 @@ void ads1015LL::read(double& digital_value) {
     DEBUG_TRACE("BAROMETER_SLEEP_EN is set to HIGH");
      
     //GPIOPins::set(BAROMETER_SLEEP_EN);
-    GPIOPins::set(BSP::GPIO::GPIO_EXT1_GPIO3);
-    PMU::delay_ms(5000);
+    
     DEBUG_TRACE("BAROMETER_SLEEP_EN is set to LOW");
     GPIOPins::clear(BAROMETER_SLEEP_EN);
     PMU::delay_ms(5000);
     GPIOPins::set(BSP::GPIO::GPIO_EXT1_GPIO3);
-
      
 
     DEBUG_TRACE("Flag value before if statement: %d", flag);
@@ -106,6 +104,22 @@ uint16_t ads1015LL::sample_adc(uint8_t measurement) {
     
 }
 
+void ads1015LL::hight() {
+  
+  DEBUG_TRACE("BAROMETER_SLEEP_EN is set to HIGH");
+  GPIOPins::set(BAROMETER_SLEEP_EN);
+  PMU::delay_ms(1000);
+
+}
+
+void ads1015LL::low() {
+
+  DEBUG_TRACE("BAROMETER_SLEEP_EN is set to LOW");
+  GPIOPins::clear(BAROMETER_SLEEP_EN);
+  PMU::delay_ms(1000);
+  
+}
+
 ads1015::ads1015() : Sensor("BARO"), m_ads1015(ads1015LL(ADC_BAROMETER_DEVICE,ADC_BAROMETER_ADDR,BAROMETER_SLEEP_EN)),m_digital_value(0) {
 DEBUG_TRACE("ads1015::ads1015");
 }
@@ -113,7 +127,10 @@ DEBUG_TRACE("ads1015::ads1015");
 double ads1015::read(unsigned int offset = 0) {
     
 		if (0 == offset) {
+      m_ads1015.hight(); 
 			m_ads1015.read(m_digital_value);
+      m_ads1015.low(); 
+
 			return m_digital_value;
 		}
 		throw ErrorCode::BAD_SENSOR_CHANNEL;
