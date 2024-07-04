@@ -40,12 +40,8 @@ void ads1015LL::send_command_conf(uint8_t *command)
 void ads1015LL::read(double& digital_value) {
     //start trigger
     //code gpio trig ;
-    //int flag = 1;
-
+    //int flag = 1
     
-   
-     
-
     //DEBUG_TRACE("Flag value before if statement: %d", flag);
    // if (flag==0) //normaly 0 
     //{
@@ -102,15 +98,16 @@ void ads1015LL::hight() {
   
   DEBUG_TRACE("BAROMETER_SLEEP_EN is set to HIGH");
   GPIOPins::set(BAROMETER_SLEEP_EN);
-  PMU::delay_ms(1000);
+  PMU::delay_ms(2000);
 
 }
 
 void ads1015LL::low() {
 
+  PMU::delay_ms(1000);
   DEBUG_TRACE("BAROMETER_SLEEP_EN is set to LOW");
   GPIOPins::clear(BAROMETER_SLEEP_EN);
-  PMU::delay_ms(1000);
+  
   
 }
 
@@ -127,6 +124,7 @@ double ads1015::read(unsigned int offset = 0) {
 
 			return m_digital_value;
 		}
+    m_ads1015.low(); 
 		throw ErrorCode::BAD_SENSOR_CHANNEL;
 		
 	}
