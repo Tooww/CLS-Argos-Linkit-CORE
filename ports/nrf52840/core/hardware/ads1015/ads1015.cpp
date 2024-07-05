@@ -48,7 +48,8 @@ void ads1015LL::read(double& digital_value) {
       //flag=0;
     uint8_t write_buffer[3] = {ads1015Command::CONFIG_REG,ads1015Command::MSB_CONFIG,ads1015Command::LSB_CONFIG};
     send_command_conf(write_buffer);
-    PMU::delay_ms(10);
+    PMU::delay_ms(1000);
+
       //flag = 0;  
     //}
     DEBUG_TRACE("sample adc test0");
