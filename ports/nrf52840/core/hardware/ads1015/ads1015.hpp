@@ -28,7 +28,7 @@ private:
     enum ads1015Command : uint8_t {
 		CONV_REG = (0x00),
 		CONFIG_REG = (0x01),
-		MSB_CONFIG = (0X81), // for config FSR=6.144V ref datasheet ads1015
+		MSB_CONFIG = (0X00), // for config FSR=6.144V and continuous mode ref datasheet ads1015
 		LSB_CONFIG =(0x83), // for config FSR=6.144V (defaul lsb)
 	};
 
