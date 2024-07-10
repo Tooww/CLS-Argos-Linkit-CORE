@@ -15,7 +15,7 @@
 
 
 
-//static int flag = 0; // normaly 0 
+static int flag = 0; // normaly 0 
 
 
 
@@ -42,15 +42,15 @@ void ads1015LL::read(double& digital_value) {
     //code gpio trig ;
     //int flag = 1
     
-    //DEBUG_TRACE("Flag value before if statement: %d", flag);
-   // if (flag==0) //normaly 0 
-    //{
-      //flag=0;
+    DEBUG_TRACE("Flag value before if statement: %d", flag);
+    if (flag==0) //normaly 0 
+    {
+      flag=1;
     uint8_t write_buffer[3] = {ads1015Command::CONFIG_REG,ads1015Command::MSB_CONFIG,ads1015Command::LSB_CONFIG};
     send_command_conf(write_buffer);
     PMU::delay_ms(10);
       //flag = 0;  
-    //}
+    }
     DEBUG_TRACE("sample adc test0");
     uint16_t bin_value = sample_adc(ads1015Command::CONV_REG);
     DEBUG_TRACE("sample adc test");
@@ -107,8 +107,7 @@ void ads1015LL::low() {
   PMU::delay_ms(1000);
   DEBUG_TRACE("BAROMETER_SLEEP_EN is set to LOW");
   GPIOPins::clear(BAROMETER_SLEEP_EN);
-  
-  
+   
 }
 
 ads1015::ads1015() : Sensor("BARO"), m_ads1015(ads1015LL(ADC_BAROMETER_DEVICE,ADC_BAROMETER_ADDR,BAROMETER_SLEEP_EN)),m_digital_value(0) {
